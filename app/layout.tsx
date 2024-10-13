@@ -1,3 +1,4 @@
+import {ClerkProvider} from '@clerk/nextjs'
 import type { Metadata } from 'next';
 import './globals.css';
 import Navbar from '../components/navbar/Navbar';
@@ -17,13 +18,15 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang='en' suppressHydrationWarning>
-      <body className={inter.className}>
+    <ClerkProvider>
+      <html lang='en' suppressHydrationWarning>
+        <body className={inter.className}>
         <Providers>
           <Navbar />
           <main className='container py-10'>{children}</main>
         </Providers>
-      </body>
-    </html>
+        </body>
+      </html>
+    </ClerkProvider>
   );
 }

@@ -4,7 +4,7 @@ import { useFormStatus } from 'react-dom';
 import { Button } from '@/components/ui/button';
 import { SignInButton } from '@clerk/nextjs';
 import { FaRegHeart, FaHeart } from 'react-icons/fa';
-import { DefaultArgs } from '@prisma/client/runtime/library';
+// import { DefaultArgs } from '@prisma/client/runtime/library';
 
 type btnSize = 'default' | 'sm' | 'lg';
 

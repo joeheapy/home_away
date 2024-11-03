@@ -1,5 +1,4 @@
 import FavoriteToggleButton from "@/components/card/FavoriteToggleButton";
-import FavoriteToggleForm from "@/components/card/FavoriteToggleForm";
 import PropertyRating from "@/components/card/PropertyRating";
 import BreadCrumbs from "@/components/properties/BreadCrumbs";
 import ImageContainer from "@/components/properties/ImageContainer";
@@ -12,7 +11,6 @@ import UserInfo from "@/components/properties/UserInfo";
 import Description from "@/components/properties/Description";
 import { Separator } from "@/components/ui/separator";
 import Amenities from "@/components/properties/Amenities";
-import PropertyMap from "@/components/properties/PropertyMap";
 import dynamic from "next/dynamic";
 import { Skeleton } from "@/components/ui/skeleton";
 
@@ -27,7 +25,7 @@ async function PropertyDetailsPage({ params }: { params: { id: string } }) {
   const property = await fetchPropertyDetails(params.id);
     if (!property) redirect('/');
   const { baths, bedrooms, beds, guests } = property;
-  const details = `${baths} baths, ${bedrooms} bedrooms, ${beds} beds, ${guests} guests`;
+  // const details = `${baths} baths, ${bedrooms} bedrooms, ${beds} beds, ${guests} guests`;
   const firstName = property.profile.firstName;
   const profileImage = property.profile.profileImage;
 

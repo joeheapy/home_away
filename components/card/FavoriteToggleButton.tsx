@@ -1,7 +1,5 @@
 // This component is used to toggle the favorite status of a property.
 
-import { FaHeart } from 'react-icons/fa';
-import { Button } from '../ui/button';
 import { auth } from '@clerk/nextjs/server';
 import { CardSignInButton } from '../form/Buttons';
 import { fetchFavoriteId } from '@/utils/actions';

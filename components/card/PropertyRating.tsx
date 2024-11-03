@@ -1,8 +1,7 @@
-import { PropertyCardProps } from "@/utils/types";
 import { FaStar } from "react-icons/fa";
 
+
 function PropertyRating({ 
-    propertyId, 
     inPage, 
 }: { 
     propertyId: string;

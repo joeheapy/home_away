@@ -25,7 +25,7 @@ async function PropertyDetailsPage({ params }: { params: { id: string } }) {
   const property = await fetchPropertyDetails(params.id);
     if (!property) redirect('/');
   const { baths, bedrooms, beds, guests } = property;
-  // const details = `${baths} baths, ${bedrooms} bedrooms, ${beds} beds, ${guests} guests`;
+  const details = { baths, bedrooms, beds, guests };
   const firstName = property.profile.firstName;
   const profileImage = property.profile.profileImage;
 
@@ -48,7 +48,7 @@ async function PropertyDetailsPage({ params }: { params: { id: string } }) {
               <h1 className='text-xl font-bold'>{property.name}</h1>
               <PropertyRating inPage propertyId={property.id} />
             </div>
-            <PropertyDetails details={property} />
+            <PropertyDetails details={details} />
             <UserInfo profile={{ firstName, profileImage }} />
             <Separator className='my-4' />
             <Description description={property.description} />

@@ -27,6 +27,7 @@ import { redirect } from 'next/navigation';
 import { validateWithZodSchema } from './schemas';
 import { uploadImage } from './supabase';
 import { PropertyCardProps } from './types';
+import { calculateTotals } from './calculateTotals';
 
 // Helper function. Get the authenticated user
 const getAuthUser = async () => {
@@ -282,6 +283,12 @@ export const fetchPropertyDetails = async (id: string) => {
     },
     include: {
       profile: true,
+      bookings: {
+        select: {
+          checkIn: true,
+          checkOut: true,
+        },
+      },
     },
   });
 };
@@ -391,3 +398,41 @@ export const findExistingReview = async(userId:string, propertyId:string) => {
     },
   });
 } 
+
+export const createBookingAction = async (prevState: {
+  propertyId: string;
+  checkIn: Date;
+  checkOut: Date;
+}) => {
+  const user = await getAuthUser();
+
+  const { propertyId, checkIn, checkOut } = prevState;
+  const property = await db.property.findUnique({
+    where: { id: propertyId },
+    select: { price: true },
+  });
+  if (!property) {
+    return { message: 'Property not found' };
+  }
+  const { orderTotal, totalNights } = calculateTotals({
+    checkIn,
+    checkOut,
+    price: property.price,
+  });
+
+  try {
+    const booking = await db.booking.create({
+      data: {
+        checkIn,
+        checkOut,
+        orderTotal,
+        totalNights,
+        profileId: user.id,
+        propertyId,
+      },
+    });
+  } catch (error) {
+    return renderError(error);
+  }
+  redirect('/bookings');
+};

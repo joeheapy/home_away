@@ -5,7 +5,6 @@ import ImageContainer from "@/components/properties/ImageContainer";
 import ShareButton from "@/components/properties/ShareButton";
 import { fetchPropertyDetails, findExistingReview } from "@/utils/actions";
 import { redirect } from "next/navigation";
-import BookingCalendar from "@/components/booking/BookingCalendar";
 import PropertyDetails from "@/components/properties/PropertyDetails";
 import UserInfo from "@/components/properties/UserInfo";
 import Description from "@/components/properties/Description";
@@ -16,7 +15,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import SubmitReview from "@/components/reviews/SubmitReview";
 import PropertyReviews from "@/components/reviews/PropertyReviews";
 import { auth } from "@clerk/nextjs/server";
-
+import BookingWrapper from "@/components/booking/BookingWrapper";
 
 // Dynamic import of PropertyMap to prevent server-side rendering
 const DynamicMap = dynamic(
@@ -26,18 +25,34 @@ const DynamicMap = dynamic(
     loading: () => <Skeleton className='h-[400px] w-full' />,
   }
 );
+// Dynamic import of BookingWrapper to prevent server-side rendering
+const DynamicBookingWrapper = dynamic(
+  () => import('@/components/booking/BookingWrapper'),
+  {
+    ssr: false,
+    loading: () => <Skeleton className='h-[200px] w-full' />,
+  }
+);
 
 async function PropertyDetailsPage({ params }: { params: { id: string } }) {
-  
+  // fetch property details
   const property = await fetchPropertyDetails(params.id);
-    if (!property) redirect('/');
+  if (!property) redirect('/');
+  // destructure property details
   const { baths, bedrooms, beds, guests } = property;
   const details = { baths, bedrooms, beds, guests };
   const firstName = property.profile.firstName;
+  // destructure profile image
   const profileImage = property.profile.profileImage;
 
+  // Determine whether to show the submit review form on the property page.
+  // The user must be logged in, not the owner of the property, and the review must not exist.
+  // Check if user is logged in
   const { userId } = auth();
+  // Check if user is not the owner of the property
   const isNotOwner = property.profile.clerkId !== userId;
+  // Check if review does not exist.
+  // If true, then we show the submit review button.
   const reviewDoesNotExist =
     userId && isNotOwner && !(await findExistingReview(userId, property.id));
 
@@ -69,9 +84,10 @@ async function PropertyDetailsPage({ params }: { params: { id: string } }) {
             <DynamicMap countryCode={property.country} />
           </div>
           <div className='lg:col-span-4 flex flex-col items-centre'>
-            <BookingCalendar />
+            <BookingWrapper propertyId={property.id} price={property.price} bookings={property.bookings} />
           </div>
         </section>
+        {/* Conditional rendering of submit review form */}
         {reviewDoesNotExist && <SubmitReview propertyId={property.id} />}
         <PropertyReviews propertyId={property.id} />
     </section>

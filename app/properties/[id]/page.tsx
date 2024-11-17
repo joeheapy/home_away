@@ -15,7 +15,6 @@ import { Skeleton } from "@/components/ui/skeleton";
 import SubmitReview from "@/components/reviews/SubmitReview";
 import PropertyReviews from "@/components/reviews/PropertyReviews";
 import { auth } from "@clerk/nextjs/server";
-import BookingWrapper from "@/components/booking/BookingWrapper";
 
 // Dynamic import of PropertyMap to prevent server-side rendering
 const DynamicMap = dynamic(
@@ -84,7 +83,7 @@ async function PropertyDetailsPage({ params }: { params: { id: string } }) {
             <DynamicMap countryCode={property.country} />
           </div>
           <div className='lg:col-span-4 flex flex-col items-centre'>
-            <BookingWrapper propertyId={property.id} price={property.price} bookings={property.bookings} />
+            <DynamicBookingWrapper propertyId={property.id} price={property.price} bookings={property.bookings} />
           </div>
         </section>
         {/* Conditional rendering of submit review form */}

@@ -5296,24 +5296,7 @@ export default RentalsPage;
 - actions.ts
 
 ```ts
-export const fetchRentalDetails = async (propertyId: string) => {
-  const user = await getAuthUser();
 
-  return db.property.findUnique({
-    where: {
-      id: propertyId,
-      profileId: user.id,
-    },
-  });
-};
-
-export const updatePropertyAction = async () => {
-  return { message: 'update property action' };
-};
-
-export const updatePropertyImageAction = async () => {
-  return { message: 'update property image' };
-};
 ```
 
 ### Rentals Edit Page
@@ -5506,7 +5489,7 @@ export const updatePropertyImageAction = async (
 
   try {
     const image = formData.get('image') as File;
-    const validatedFields = validateWithZodSchema(imageSchema, { image });
+    const validatedFields = validateWithZodSchema(ImageSchema, { image });
     const fullPath = await uploadImage(validatedFields.image);
 
     await db.property.update({

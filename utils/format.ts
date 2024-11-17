@@ -12,3 +12,11 @@ export const formatCurrency = (amount: number | null) => {
     // pluralize the noun based on the quantity
     return quantity === 1 ? `${quantity} ${noun}` : `${quantity} ${noun}s`;
   }
+
+  export const formatDate = (date: Date) => {
+    return new Intl.DateTimeFormat('en-US', {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+    }).format(date);
+  }

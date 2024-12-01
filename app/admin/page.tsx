@@ -1,7 +1,7 @@
 import ChartsContainer from '@/components/admin/chartContainer';
 import StatsContainer from '@/components/admin/statsContainer';
 import {
-  ChartLoadingContainer,
+  ChartsLoadingContainer,
   StatsLoadingContainer,
 } from '@/components/admin/loading';
 import { Suspense } from 'react';
@@ -12,7 +12,7 @@ function AdminPage() {
       <Suspense fallback={<StatsLoadingContainer />}>
         <StatsContainer />
       </Suspense>
-      <Suspense fallback={<ChartLoadingContainer />}>
+      <Suspense fallback={<ChartsLoadingContainer />}>
         <ChartsContainer />
       </Suspense>
     </>

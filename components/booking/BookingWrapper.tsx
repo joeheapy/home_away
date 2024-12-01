@@ -11,18 +11,20 @@ type BookingWrapperProps = {
   price: number;
   bookings: Booking[];
 };
+
 export default function BookingWrapper({
   propertyId,
   price,
   bookings,
 }: BookingWrapperProps) {
+
   useEffect(() => {
     useProperty.setState({
       propertyId,
       price,
       bookings,
     });
-  }, []);
+  }, [propertyId, price, bookings]);
   return (
     <>
       <BookingCalendar />

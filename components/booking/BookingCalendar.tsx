@@ -38,7 +38,7 @@ function BookingCalendar() {
       return false;
     });
     useProperty.setState({ range });
-  }, [range]);
+  }, [range, toast, unavailableDates]);
 
   return (
     <Calendar

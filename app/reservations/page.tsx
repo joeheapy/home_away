@@ -13,6 +13,7 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
+import Stats from '@/components/reservations/stats';
 
 async function ReservationsPage() {
   const reservations = await fetchReservations();
@@ -22,8 +23,10 @@ async function ReservationsPage() {
   }
 
   return (
-    <div className='mt-16'>
-      <h4 className='mb-4 capitalize'>
+    <>
+      <Stats />
+      <div className='mt-16'>
+        <h4 className='mb-4 capitalize'>
         total reservations : {reservations.length}
       </h4>
       <Table>
@@ -66,8 +69,9 @@ async function ReservationsPage() {
             );
           })}
         </TableBody>
-      </Table>
-    </div>
+        </Table>
+      </div>
+    </>
   );
 }
 export default ReservationsPage;
